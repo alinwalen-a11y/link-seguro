@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Link Seguro | Detector de Estafas</title>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { background:#0a0f1e; color:white; min-height:100vh; padding:20px; }
+  .container { max-width:650px; margin:0 auto; padding-top:40px; }
+  .badge { background:#1e293b; color:#38bdf8; padding:6px 14px; border-radius:20px; font-size:13px; display:inline-block; margin-bottom:15px; border:1px solid #334155; }
+  h1 { font-size:42px; line-height:1.1; margin-bottom:10px; }
+  h1 span { color:#38bdf8; }
+  p.sub { color:#94a3b8; font-size:16px; margin-bottom:25px; line-height:1.5; }
+  .search-box { background:#111c33; border:1px solid #1e3a5f; border-radius:16px; padding:10px; display:flex; gap:10px; }
+  .search-box input { flex:1; background:transparent; border:none; outline:none; color:white; font-size:16px; padding:10px; }
+  .search-box input::placeholder { color:#64748b; }
+  .search-box button { background:#2563eb; color:white; border:none; padding:14px 24px; border-radius:12px; font-weight:bold; cursor:pointer; font-size:15px; }
+  .search-box button:hover { background:#1d4ed8; }
+  .examples { margin-top:12px; font-size:13px; color:#64748b; }
+  .examples b { color:#94a3b8; cursor:pointer; }
+  .card { margin-top:25px; border-radius:18px; padding:24px; background:#111c33; border:1px solid #1e293b; }
+  .card.red { border-left:6px solid #ef4444; }
+  .card.yellow { border-left:6px solid #f59e0b; }
+  .card.green { border-left:6px solid #22c55e; }
+  .score-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
+  .score-num { font-size:42px; font-weight:800; }
+  .score-num small { font-size:18px; color:#94a3b8; }
+  .pill { padding:6px 14px; border-radius:20px; font-weight:bold; font-size:13px; }
+  .pill-red { background:#ef4444; } .pill-yellow { background:#f59e0b; color:black; } .pill-green { background:#22c55e; color:black; }
+  .domain { background:#0a0f1e; padding:12px; border-radius:10px; font-family:monospace; margin:12px 0; word-break:break-all; }
+  .card ul { list-style:none; margin-top:10px; }
+  .card li { padding:10px 0; border-bottom:1px solid #1e293b; color:#cbd5e1; font-size:14px; line-height:1.4; }
+  .card li:last-child { border:none; }
+  .footer { text-align:center; margin-top:35px; color:#475569; font-size:12px; }
+  @media(max-width:600px){ h1{font-size:32px} .search-box{flex-direction:column} }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="badge">🛡️ PROTEGIDO POR IA - 100% GRATIS</div>
+  <h1>¿Este link es<br><span>una estafa?</span></h1>
+  <p class="sub">Pega el link que te llegó por WhatsApp, correo o SMS. Lo analizamos en segundos antes de que hagas click.</p>
+
+  <form method="POST" class="search-box">
+    <input type="text" name="url" placeholder="https://ejemplo-sospechoso.com/premio" required>
+    <button type="submit">Analizar →</button>
+  </form>
+  <div class="examples">Prueba con: <b onclick="document.querySelector('input').value='google.com'">google.com</b> • <b onclick="document.querySelector('input').value='http://banco-pichincha-gratis-premio.xyz/login'">link falso de banco</b></div>
+
+  {% if resultado %}
+  <div class="card {{ resultado.color }}">
+    <div class="score-row">
+      <div><div class="score-num">{{ resultado.puntaje }}<small>/100</small></div><div style="color:#94a3b8;font-size:13px;">Nivel de riesgo</div></div>
+      <div class="pill pill-{{ resultado.color }}">{{ resultado.nivel }}</div>
+    </div>
+    <div class="domain">🌐 {{ resultado.dominio }}</div>
+    <ul>
+      {% for m in resultado.motivos %}
+      <li>⚠️ {{ m }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="footer">Link Seguro • Hecho en Ecuador 🇪🇨 • No guardamos tus links</div>
+</div>
+</body>
+</html>
